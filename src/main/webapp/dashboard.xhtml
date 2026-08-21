@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="titulo">Dashboard</ui:define>
+
+    <ui:define name="corpo">
+
+        <div class="cartoes">
+            <div class="cartao">
+                <span class="rotulo">Itens cadastrados</span>
+                <span class="numero">#{dashboardBean.totalItens}</span>
+            </div>
+            <div class="cartao">
+                <span class="rotulo">Centros de coleta</span>
+                <span class="numero">#{dashboardBean.totalCentros}</span>
+            </div>
+            <div class="cartao">
+                <span class="rotulo">Volume cadastrado</span>
+                <span class="numero">
+                    <h:outputText value="#{dashboardBean.volumeCadastrado}">
+                        <f:convertNumber xmlns:f="jakarta.faces.core"
+                                         minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </span>
+            </div>
+            <div class="cartao #{dashboardBean.centrosCriticos gt 0 ? 'critico' : ''}">
+                <span class="rotulo">Centros acima de 90%</span>
+                <span class="numero">#{dashboardBean.centrosCriticos}</span>
+            </div>
+        </div>
+
+        <h:form>
+            <p:panel header="Ocupacao dos centros de coleta" styleClass="painel-grafico">
+                <p:chart type="bar" model="#{dashboardBean.graficoOcupacao}"
+                         style="width:100%; height:340px;"/>
+            </p:panel>
+        </h:form>
+
+        <p class="nota">
+            Os percentuais vem da view V_OCUPACAO_CENTROS, calculada no banco Oracle.
+        </p>
+
+    </ui:define>
+</ui:composition>

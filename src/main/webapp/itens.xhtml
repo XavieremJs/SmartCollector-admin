@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="titulo">Itens reciclaveis</ui:define>
+
+    <ui:define name="corpo">
+
+        <h:form id="form">
+
+            <p:messages id="mensagens" showDetail="true" closable="true"/>
+
+            <div class="barra-acoes">
+                <p:inputText value="#{itemBean.filtro}" placeholder="Buscar pelo nome"
+                             style="width:260px"/>
+                <p:commandButton value="Buscar" action="#{itemBean.carregar}"
+                                 update="tabela" icon="pi pi-search"/>
+                <p:commandButton value="Limpar" action="#{itemBean.limparFiltro}"
+                                 update="@form" styleClass="ui-button-secondary"/>
+                <p:commandButton value="Novo item" action="#{itemBean.novo}"
+                                 update=":form:dlgItemConteudo" oncomplete="PF('dlgItem').show()"
+                                 icon="pi pi-plus" process="@this"/>
+            </div>
+
+            <p:dataTable id="tabela" var="item" value="#{itemBean.itens}"
+                         paginator="true" rows="10"
+                         rowsPerPageTemplate="10,25,50"
+                         emptyMessage="Nenhum item encontrado."
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord} a {endRecord} de {totalRecords}">
+
+                <p:column headerText="Codigo" sortBy="#{item.id}" style="width:100px">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+                <p:column headerText="Nome" sortBy="#{item.nome}" filterBy="#{item.nome}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+
+                <p:column headerText="Volume" sortBy="#{item.volume}" style="width:140px">
+                    <h:outputText value="#{item.volume}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Acoes" style="width:130px">
+                    <p:commandButton icon="pi pi-pencil" title="Editar"
+                                     action="#{itemBean.editar(item)}"
+                                     update=":form:dlgItemConteudo"
+                                     oncomplete="PF('dlgItem').show()"
+                                     process="@this"
+                                     styleClass="ui-button-flat"/>
+
+                    <p:commandButton icon="pi pi-trash" title="Excluir"
+                                     action="#{itemBean.excluir(item)}"
+                                     update="tabela mensagens"
+                                     process="@this"
+                                     styleClass="ui-button-flat ui-button-danger">
+                        <p:confirm header="Confirmar exclusao"
+                                   message="Excluir o item selecionado?"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade">
+                <p:commandButton value="Nao" type="button"
+                                 styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                <p:commandButton value="Sim" type="button"
+                                 styleClass="ui-confirmdialog-yes"/>
+            </p:confirmDialog>
+
+            <p:dialog header="Item" widgetVar="dlgItem" modal="true"
+                      resizable="false" width="440" showEffect="fade">
+
+                <p:outputPanel id="dlgItemConteudo">
+                    <p:panelGrid columns="2" layout="grid"
+                                 columnClasses="ui-grid-col-4,ui-grid-col-8"
+                                 styleClass="ui-panelgrid-blank"
+                                 rendered="#{not empty itemBean.itemSelecionado}">
+
+                        <p:outputLabel for="nome" value="Nome"/>
+                        <p:inputText id="nome" value="#{itemBean.itemSelecionado.nome}"
+                                     required="true" maxlength="100" style="width:100%"/>
+
+                        <p:outputLabel for="volume" value="Volume"/>
+                        <p:inputNumber id="volume" value="#{itemBean.itemSelecionado.volume}"
+                                       decimalSeparator="," thousandSeparator="."
+                                       decimalPlaces="2" minValue="0" style="width:100%"/>
+                    </p:panelGrid>
+
+                    <div class="rodape-dialogo">
+                        <p:commandButton value="Cancelar" type="button"
+                                         onclick="PF('dlgItem').hide()"
+                                         styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Salvar" action="#{itemBean.salvar}"
+                                         update="dlgItemConteudo"
+                                         process="dlgItemConteudo"/>
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

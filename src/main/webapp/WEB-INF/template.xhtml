@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="primefaces"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:head>
+    <title>SmartCollector Admin</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet library="css" name="app.css"/>
+</h:head>
+
+<h:body>
+
+    <div class="topo">
+        <span class="marca">SmartCollector</span>
+        <span class="sub">Painel administrativo</span>
+
+        <h:form styleClass="sair">
+            <h:commandLink value="Sair" action="#{'/logout'}"
+                           onclick="document.getElementById('formLogout').submit(); return false;"/>
+        </h:form>
+    </div>
+
+    <form id="formLogout" method="post" action="#{request.contextPath}/logout"></form>
+
+    <div class="menu">
+        <h:link outcome="/dashboard.xhtml" value="Dashboard"/>
+        <h:link outcome="/itens.xhtml" value="Itens"/>
+        <h:link outcome="/centros.xhtml" value="Centros de coleta"/>
+        <h:link outcome="/historico.xhtml" value="Historico"/>
+    </div>
+
+    <div class="conteudo">
+        <h1><ui:insert name="titulo">SmartCollector</ui:insert></h1>
+        <ui:insert name="corpo"/>
+    </div>
+
+</h:body>
+</html>

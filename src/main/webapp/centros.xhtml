@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="titulo">Centros de coleta</ui:define>
+
+    <ui:define name="corpo">
+
+        <h:form id="form">
+
+            <p:messages id="mensagens" showDetail="true" closable="true"/>
+
+            <div class="barra-acoes">
+                <p:inputText value="#{centroBean.filtro}" placeholder="Buscar pelo endereco"
+                             style="width:280px"/>
+                <p:commandButton value="Buscar" action="#{centroBean.carregar}"
+                                 update="tabela" icon="pi pi-search"/>
+                <p:commandButton value="Novo centro" action="#{centroBean.novo}"
+                                 update=":form:dlgCentroConteudo"
+                                 oncomplete="PF('dlgCentro').show()"
+                                 icon="pi pi-plus" process="@this"/>
+            </div>
+
+            <p:dataTable id="tabela" var="centro" value="#{centroBean.centros}"
+                         paginator="true" rows="10"
+                         emptyMessage="Nenhum centro cadastrado."
+                         currentPageReportTemplate="{startRecord} a {endRecord} de {totalRecords}"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <p:column headerText="Codigo" sortBy="#{centro.id}" style="width:100px">
+                    <h:outputText value="#{centro.id}"/>
+                </p:column>
+
+                <p:column headerText="Endereco" sortBy="#{centro.endereco}">
+                    <h:outputText value="#{centro.endereco}"/>
+                </p:column>
+
+                <p:column headerText="Capacidade" style="width:130px">
+                    <h:outputText value="#{centro.volumeTotal}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Ocupacao" style="width:200px">
+                    <p:progressBar value="#{centro.percentualOcupacao}" displayOnly="true"
+                                   labelTemplate="{value}%"
+                                   style="height:18px"/>
+                </p:column>
+
+                <p:column headerText="Acoes" style="width:130px">
+                    <p:commandButton icon="pi pi-pencil" title="Editar"
+                                     action="#{centroBean.editar(centro)}"
+                                     update=":form:dlgCentroConteudo"
+                                     oncomplete="PF('dlgCentro').show()"
+                                     process="@this" styleClass="ui-button-flat"/>
+
+                    <p:commandButton icon="pi pi-trash" title="Excluir"
+                                     action="#{centroBean.excluir(centro)}"
+                                     update="tabela mensagens" process="@this"
+                                     styleClass="ui-button-flat ui-button-danger">
+                        <p:confirm header="Confirmar exclusao"
+                                   message="Excluir o centro selecionado?"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade">
+                <p:commandButton value="Nao" type="button"
+                                 styleClass="ui-confirmdialog-no ui-button-secondary"/>
+                <p:commandButton value="Sim" type="button"
+                                 styleClass="ui-confirmdialog-yes"/>
+            </p:confirmDialog>
+
+            <p:dialog header="Centro de coleta" widgetVar="dlgCentro" modal="true"
+                      resizable="false" width="480" showEffect="fade">
+
+                <p:outputPanel id="dlgCentroConteudo">
+                    <p:panelGrid columns="2" layout="grid"
+                                 columnClasses="ui-grid-col-4,ui-grid-col-8"
+                                 styleClass="ui-panelgrid-blank"
+                                 rendered="#{not empty centroBean.centroSelecionado}">
+
+                        <p:outputLabel for="endereco" value="Endereco"/>
+                        <p:inputText id="endereco" value="#{centroBean.centroSelecionado.endereco}"
+                                     required="true" maxlength="200" style="width:100%"/>
+
+                        <p:outputLabel for="total" value="Capacidade total"/>
+                        <p:inputNumber id="total" value="#{centroBean.centroSelecionado.volumeTotal}"
+                                       decimalSeparator="," thousandSeparator="."
+                                       decimalPlaces="2" minValue="0" style="width:100%"/>
+
+                        <p:outputLabel for="atual" value="Volume atual"/>
+                        <p:inputNumber id="atual" value="#{centroBean.centroSelecionado.volumeAtual}"
+                                       decimalSeparator="," thousandSeparator="."
+                                       decimalPlaces="2" minValue="0" style="width:100%"/>
+                    </p:panelGrid>
+
+                    <div class="rodape-dialogo">
+                        <p:commandButton value="Cancelar" type="button"
+                                         onclick="PF('dlgCentro').hide()"
+                                         styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Salvar" action="#{centroBean.salvar}"
+                                         update="dlgCentroConteudo"
+                                         process="dlgCentroConteudo"/>
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="primefaces"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="titulo">Historico de coletas</ui:define>
+
+    <ui:define name="corpo">
+
+        <h:form id="form">
+
+            <div class="barra-acoes">
+                <p:outputLabel for="catador" value="Catador"/>
+                <p:inputNumber id="catador" value="#{historicoBean.idCatador}"
+                               decimalPlaces="0" style="width:120px"/>
+
+                <p:outputLabel for="mes" value="Mes"/>
+                <p:selectOneMenu id="mes" value="#{historicoBean.anoMes}" style="width:150px">
+                    <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                    <f:selectItems value="#{historicoBean.meses}"/>
+                </p:selectOneMenu>
+
+                <p:commandButton value="Consultar" action="#{historicoBean.consultar}"
+                                 update="@form" icon="pi pi-search"/>
+            </div>
+
+            <h:panelGroup rendered="#{historicoBean.eventosPendentes gt 0}"
+                          styleClass="alerta-sincronia" layout="block">
+                #{historicoBean.eventosPendentes} evento(s) aguardando sincronizacao.
+                O historico pode nao refletir as ultimas entregas.
+            </h:panelGroup>
+
+            <p:panel header="Entregas do catador" styleClass="painel-consulta">
+                <p:dataTable var="h" value="#{historicoBean.historico}"
+                             paginator="true" rows="10"
+                             emptyMessage="Informe um catador e consulte.">
+
+                    <p:column headerText="Coleta" style="width:90px">
+                        <h:outputText value="#{h.idColeta}"/>
+                    </p:column>
+
+                    <p:column headerText="Data" sortBy="#{h.dataEntrega}" style="width:150px">
+                        <h:outputText value="#{h.dataEntrega}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Centro de entrega">
+                        <h:outputText value="#{h.enderecoCentro}"/>
+                    </p:column>
+
+                    <p:column headerText="Itens" style="width:90px">
+                        <h:outputText value="#{h.qtdItens}"/>
+                    </p:column>
+
+                    <p:column headerText="Volume" style="width:120px">
+                        <h:outputText value="#{h.volume}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        Volume total consultado:
+                        <h:outputText value="#{historicoBean.volumeConsultado}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+
+            <p:panel header="Ranking mensal por volume" styleClass="painel-consulta">
+                <p:dataTable var="r" value="#{historicoBean.ranking}"
+                             rows="10" paginator="true"
+                             emptyMessage="Nenhum dado para o mes selecionado.">
+
+                    <p:column headerText="Catador" style="width:120px">
+                        <h:outputText value="#{r.idCatador}"/>
+                    </p:column>
+
+                    <p:column headerText="Coletas" style="width:110px">
+                        <h:outputText value="#{r.totalColetas}"/>
+                    </p:column>
+
+                    <p:column headerText="Itens" style="width:110px">
+                        <h:outputText value="#{r.itensTotal}"/>
+                    </p:column>
+
+                    <p:column headerText="Volume total">
+                        <h:outputText value="#{r.volumeTotal}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p class="nota">
+                Consultas atendidas pelo read model em MySQL, alimentado pelo outbox
+                do Oracle. Consistencia eventual: o atraso tipico e de ate 10 segundos.
+            </p>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

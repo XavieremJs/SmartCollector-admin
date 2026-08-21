@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces">
+
+<h:head>
+    <title>Entrar - SmartCollector Admin</title>
+    <meta charset="UTF-8"/>
+    <h:outputStylesheet library="css" name="app.css"/>
+</h:head>
+
+<h:body styleClass="tela-login">
+
+    <div class="caixa-login">
+        <h2>SmartCollector</h2>
+        <p class="sub">Painel administrativo</p>
+
+        <p:messages showDetail="true" closable="true"/>
+
+        <h:panelGroup rendered="#{not empty param.erro}" styleClass="alerta-erro" layout="block">
+            E-mail ou senha invalidos.
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty param.saiu}" styleClass="alerta-ok" layout="block">
+            Sessao encerrada com sucesso.
+        </h:panelGroup>
+
+        <form method="post" action="#{request.contextPath}/login">
+            <label for="username">E-mail</label>
+            <input type="email" id="username" name="username" required="required"
+                   autocomplete="username" class="campo"/>
+
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" required="required"
+                   autocomplete="current-password" class="campo"/>
+
+            <button type="submit" class="botao-principal">Entrar</button>
+        </form>
+    </div>
+
+</h:body>
+</html>

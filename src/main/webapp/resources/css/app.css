@@ -1,0 +1,57 @@
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+       background: #f5f6f5; margin: 0; color: #26262b; }
+
+.topo { background: #0f6e56; color: #fff; padding: 14px 28px;
+        display: flex; align-items: baseline; gap: 12px; }
+.topo .marca { font-size: 18px; font-weight: 600; }
+.topo .sub { font-size: 13px; opacity: .8; }
+.topo .sair { margin-left: auto; }
+.topo .sair a { color: #fff; font-size: 13px; text-decoration: none; }
+
+.menu { background: #fff; border-bottom: 1px solid #e0e0dc;
+        padding: 0 28px; display: flex; gap: 22px; }
+.menu a { display: inline-block; padding: 12px 0; font-size: 14px;
+          color: #444; text-decoration: none; border-bottom: 2px solid transparent; }
+.menu a:hover { color: #0f6e56; border-bottom-color: #0f6e56; }
+
+.conteudo { padding: 24px 28px; max-width: 1100px; }
+.conteudo h1 { font-size: 20px; font-weight: 500; margin: 0 0 18px; }
+
+.cartoes { display: grid; grid-template-columns: repeat(4, 1fr);
+           gap: 14px; margin-bottom: 22px; }
+.cartao { background: #fff; border: 1px solid #e0e0dc; border-radius: 8px;
+          padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.cartao .rotulo { font-size: 12px; color: #6b6b66; }
+.cartao .numero { font-size: 26px; font-weight: 500; }
+.cartao.critico .numero { color: #a32d2d; }
+
+.barra-acoes { display: flex; gap: 8px; align-items: center;
+               margin-bottom: 14px; flex-wrap: wrap; }
+.rodape-dialogo { display: flex; justify-content: flex-end;
+                  gap: 8px; margin-top: 18px; }
+.painel-grafico { margin-top: 8px; }
+.nota { font-size: 12px; color: #6b6b66; margin-top: 12px; }
+
+.tela-login { display: flex; align-items: center; justify-content: center;
+              min-height: 100vh; background: #0f6e56; }
+.caixa-login { background: #fff; padding: 34px; border-radius: 10px;
+               width: 340px; box-sizing: border-box; }
+.caixa-login h2 { margin: 0; font-size: 20px; color: #0f6e56; }
+.caixa-login .sub { margin: 4px 0 22px; font-size: 13px; color: #6b6b66; }
+.caixa-login label { display: block; font-size: 13px;
+                     margin: 12px 0 4px; color: #444; }
+.campo { width: 100%; padding: 9px 10px; border: 1px solid #d0d0cc;
+         border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+.botao-principal { width: 100%; margin-top: 20px; padding: 10px;
+                   background: #0f6e56; color: #fff; border: none;
+                   border-radius: 6px; font-size: 14px; cursor: pointer; }
+.botao-principal:hover { background: #0b5744; }
+.alerta-erro { background: #fceaea; color: #a32d2d; padding: 9px 12px;
+               border-radius: 6px; font-size: 13px; margin-top: 10px; }
+.alerta-ok { background: #e1f5ee; color: #0f6e56; padding: 9px 12px;
+             border-radius: 6px; font-size: 13px; margin-top: 10px; }
+
+.alerta-sincronia { background: #fff6e0; color: #7a5a10; padding: 9px 12px;
+                    border-radius: 6px; font-size: 13px; margin-bottom: 14px;
+                    border: 1px solid #f0dfae; }
+.painel-consulta { margin-bottom: 18px; }
