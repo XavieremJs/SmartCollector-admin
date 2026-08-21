@@ -56,7 +56,7 @@ class ProjecaoServiceTest {
         verify(historicoRepository).save(hist.capture());
         assertEquals(10L, hist.getValue().getIdColeta());
         assertEquals("2026-08", hist.getValue().getAnoMes());
-        assertEquals(new BigDecimal("25.50"), hist.getValue().getVolume());
+        assertEquals(0, new BigDecimal("25.50").compareTo(hist.getValue().getVolume()));
 
         ArgumentCaptor<RelatorioMensal> rel = ArgumentCaptor.forClass(RelatorioMensal.class);
         verify(relatorioRepository).save(rel.capture());
@@ -95,7 +95,7 @@ class ProjecaoServiceTest {
         projecaoService.aplicar(2L, "COLETA_ENTREGUE", PAYLOAD);
 
         assertEquals(3, existente.getTotalColetas());
-        assertEquals(new BigDecimal("125.50"), existente.getVolumeTotal());
+        assertEquals(0, new BigDecimal("125.50").compareTo(existente.getVolumeTotal()));
         assertEquals(13, existente.getItensTotal());
     }
 

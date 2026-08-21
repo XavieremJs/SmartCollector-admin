@@ -5,7 +5,7 @@ import br.com.smartcollector.admin.service.ItemService;
 import br.com.smartcollector.admin.service.RelatorioService;
 import jakarta.annotation.PostConstruct;
 import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
@@ -54,7 +54,7 @@ public class DashboardBean implements Serializable {
         List<Map<String, Object>> dados = relatorioService.ocupacaoPorCentro();
 
         List<String> rotulos = new ArrayList<>();
-        List<Number> valores = new ArrayList<>();
+        List<Object> valores = new ArrayList<>();
 
         for (Map<String, Object> linha : dados) {
             String endereco = String.valueOf(linha.get("ENDERECO"));
@@ -74,7 +74,7 @@ public class DashboardBean implements Serializable {
         data.setLabels(rotulos);
 
         BarChartOptions options = new BarChartOptions();
-        options.setScales(new CartesianLinearAxes());
+        options.setScales(new CartesianScales());
         Legend legend = new Legend();
         legend.setDisplay(true);
         options.setLegend(legend);
