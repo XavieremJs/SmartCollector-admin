@@ -89,6 +89,17 @@ Chamadas a partir do Java em `RelatorioService` via `CallableStatement` e `JdbcC
 | Centros de coleta | `/centros.xhtml` | apenas `ROLE_ADMIN` |
 | Histórico e relatórios | `/historico.xhtml` | autenticado |
 
+### Capturas
+
+![Dashboard](docs/dashboard.png)
+*Dashboard com indicadores gerais e ocupação dos centros de coleta, calculada pela view V_OCUPACAO_CENTROS no Oracle.*
+
+![Itens recicláveis](docs/itens.png)
+*CRUD de itens com DataTable, paginação, filtro por coluna e diálogo modal de edição — tudo via AJAX do PrimeFaces.*
+
+![Centros de coleta](docs/centros.png)
+*Gestão dos centros de coleta, com barra de ocupação e validação de capacidade no serviço.*
+
 O CRUD de itens usa `DataTable` com paginação, ordenação, filtro por coluna, diálogo modal de edição e confirmação de exclusão — tudo via AJAX, sem uma linha de JavaScript escrita à mão.
 
 ---
