@@ -2,7 +2,12 @@
 
 Painel administrativo web para o sistema **SmartCollector**, construído com **JSF/PrimeFaces** sobre **Spring Boot** e **Oracle**.
 
-Enquanto a [API REST](https://github.com/XavieremJs/smartcollector-api) atende as aplicações cliente, este painel é a interface interna de gestão: cadastro de itens recicláveis, gestão dos centros de coleta e acompanhamento de ocupação em tempo real. Ambos leem o mesmo schema Oracle.
+Enquanto a [API REST](./api) — no diretório `api/` deste mesmo repositório — atende as aplicações cliente, este painel é a interface interna de gestão: cadastro de itens recicláveis, gestão dos centros de coleta e acompanhamento de ocupação em tempo real. Ambos leem o mesmo schema Oracle.
+
+```
+/          → painel administrativo JSF (este projeto)
+/api       → API REST consumida pelas aplicações cliente
+```
 
 ---
 
@@ -106,7 +111,7 @@ O CRUD de itens usa `DataTable` com paginação, ordenação, filtro por coluna,
 
 ## Como executar
 
-Requer Java 21, Maven e uma instância Oracle acessível. O schema é o mesmo da API — se ela já rodou, as tabelas existem.
+Requer Java 21, Maven e uma instância Oracle acessível. As migrações Flyway deste projeto são as donas do schema: rode o painel uma vez e as tabelas, o PL/SQL e o outbox passam a existir para os dois módulos.
 
 ```bash
 export DB_URL=jdbc:oracle:thin:@localhost:1521/FREEPDB1
@@ -122,7 +127,7 @@ export MYSQL_PASSWORD=sua-senha
 
 Painel em `http://localhost:8081/login.xhtml`.
 
-Para subir o Oracle, o `docker-compose.yml` da API serve; este projeto aponta para o mesmo banco na porta 1521.
+Para subir o Oracle, use o `docker-compose.yml` do módulo `api/` (`cd api && docker compose up -d`); este projeto aponta para o mesmo banco na porta 1521.
 
 ### Testes
 
