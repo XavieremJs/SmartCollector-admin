@@ -1,0 +1,20 @@
+services:
+  oracle:
+    image: gvenzl/oracle-free:23-slim
+    container_name: smartcollector-oracle
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:-oracle}
+      APP_USER: smartcollector
+      APP_USER_PASSWORD: ${DB_PASSWORD:-smartcollector}
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  oracle-data:
