@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Consultas do painel. Todas leem o MySQL — nenhuma toca o Oracle.
  */
-@Service
+//@Service
 public class ConsultaHistoricoService {
 
     private final HistoricoColetaRepository historicoRepository;

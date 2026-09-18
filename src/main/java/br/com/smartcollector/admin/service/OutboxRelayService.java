@@ -26,7 +26,7 @@ import java.util.List;
  * evento_aplicado descarta a repeticao. A garantia e "pelo menos uma vez"
  * com efeito exatamente uma vez — nunca perda silenciosa.
  */
-@Service
+//@Service
 public class OutboxRelayService {
 
     private static final Logger log = LoggerFactory.getLogger(OutboxRelayService.class);

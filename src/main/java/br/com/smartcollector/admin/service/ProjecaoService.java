@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
  * do Oracle. A idempotencia e garantida pela tabela evento_aplicado:
  * se o mesmo evento chegar duas vezes, a segunda e ignorada.
  */
-@Service
+//@Service
 public class ProjecaoService {
 
     private static final Logger log = LoggerFactory.getLogger(ProjecaoService.class);

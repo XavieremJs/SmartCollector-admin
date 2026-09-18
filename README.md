@@ -138,6 +138,7 @@ Para subir o Oracle, o `docker-compose.yml` da API serve; este projeto aponta pa
 - **Consistência eventual no histórico.** O read model atrasa até ~10 segundos (intervalo do relay). Aceitável para consulta e relatório; inaceitável para regra de negócio — por isso nenhuma decisão transacional lê o MySQL.
 - **Relay em processo, não em worker separado.** Simplifica o deploy ao custo de acoplar a projeção ao ciclo de vida da aplicação. Em produção o natural seria extrair para um serviço próprio ou trocar o polling por CDC.
 - **Sem cache de segundo nível.** Volume de dados baixo; a complexidade não se justifica ainda.
+- **Read model MySQL e tela de Histórico temporariamente desligados.** O `@Configuration` do datasource MySQL e o `@Component` do `HistoricoBean` estão comentados nesta versão — a aplicação roda apenas contra o Oracle. O outbox e as migrações do read model continuam no código; reativar as duas anotações restaura o fluxo completo.
 - **Autenticação por formulário do Spring Security**, não pelo JWT da API — o painel é uma aplicação stateful com sessão, e o modelo de token da API não se aplica aqui.
 
 ---

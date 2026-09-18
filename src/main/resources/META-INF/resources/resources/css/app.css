@@ -55,3 +55,8 @@ body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
                     border-radius: 6px; font-size: 13px; margin-bottom: 14px;
                     border: 1px solid #f0dfae; }
 .painel-consulta { margin-bottom: 18px; }
+
+.botao-sair { background: none; border: 1px solid rgba(255,255,255,.4);
+              color: #fff; font-size: 13px; padding: 4px 12px;
+              border-radius: 4px; cursor: pointer; }
+.botao-sair:hover { background: rgba(255,255,255,.15); }

@@ -19,13 +19,10 @@
         <span class="marca">SmartCollector</span>
         <span class="sub">Painel administrativo</span>
 
-        <h:form styleClass="sair">
-            <h:commandLink value="Sair" action="#{'/logout'}"
-                           onclick="document.getElementById('formLogout').submit(); return false;"/>
-        </h:form>
+                <form method="post" action="#{request.contextPath}/logout" class="sair">
+            <button type="submit" class="botao-sair">Sair</button>
+        </form>
     </div>
-
-    <form id="formLogout" method="post" action="#{request.contextPath}/logout"></form>
 
     <div class="menu">
         <h:link outcome="/dashboard.xhtml" value="Dashboard"/>

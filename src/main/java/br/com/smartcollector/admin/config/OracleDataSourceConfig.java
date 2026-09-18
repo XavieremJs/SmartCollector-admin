@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -43,8 +44,20 @@ public class OracleDataSourceConfig {
     public DataSource oracleDataSource(
             @Qualifier("oracleDataSourceProperties") DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder()
-                         .type(HikariDataSource.class)
-                         .build();
+                .type(HikariDataSource.class)
+                .build();
+    }
+
+    /**
+     * Com dois datasources a autoconfiguracao do Spring Boot fica desligada,
+     * entao este builder precisa ser declarado manualmente.
+     */
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+        return new EntityManagerFactoryBuilder(
+                new HibernateJpaVendorAdapter(),
+                new HashMap<>(),
+                null);
     }
 
     @Bean
@@ -59,10 +72,10 @@ public class OracleDataSourceConfig {
         props.put("hibernate.jdbc.batch_size", 25);
 
         return builder.dataSource(dataSource)
-                      .packages("br.com.smartcollector.admin.model")
-                      .persistenceUnit("oracle")
-                      .properties(props)
-                      .build();
+                .packages("br.com.smartcollector.admin.model")
+                .persistenceUnit("oracle")
+                .properties(props)
+                .build();
     }
 
     @Bean
@@ -75,9 +88,9 @@ public class OracleDataSourceConfig {
     @Bean(initMethod = "migrate")
     public Flyway oracleFlyway(@Qualifier("oracleDataSource") DataSource dataSource) {
         return Flyway.configure()
-                     .dataSource(dataSource)
-                     .locations("classpath:db/oracle")
-                     .baselineOnMigrate(true)
-                     .load();
+                .dataSource(dataSource)
+                .locations("classpath:db/oracle")
+                .baselineOnMigrate(true)
+                .load();
     }
 }

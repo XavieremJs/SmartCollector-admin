@@ -22,7 +22,7 @@ import java.util.Map;
  * Datasource de leitura (MySQL). Guarda o read model alimentado pelo relay.
  * Toda escrita aqui e projecao de evento, nunca regra de negocio.
  */
-@Configuration
+//@Configuration
 @EnableJpaRepositories(
         basePackages = "br.com.smartcollector.admin.readmodel.repository",
         entityManagerFactoryRef = "mysqlEntityManagerFactory",

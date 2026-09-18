@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("historicoBean")
+//@Component("historicoBean")
 @SessionScope
 public class HistoricoBean implements Serializable {
 
