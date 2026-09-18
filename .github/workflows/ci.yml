@@ -33,10 +33,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configura o JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
@@ -48,7 +48,7 @@ jobs:
 
       - name: Guarda os relatorios de teste
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: surefire-${{ matrix.modulo }}
           path: ${{ matrix.diretorio }}/target/surefire-reports/
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # O ghcr.io so aceita nomes em minusculas e o dono deste repositorio
       # tem maiusculas no login. Normalizar aqui evita o classico 403.
