@@ -6,7 +6,10 @@ WORKDIR /build
 # O pom entra sozinho primeiro: enquanto ele nao mudar, o Docker reaproveita
 # a camada com as dependencias ja baixadas e o build para em segundos.
 COPY pom.xml .
-RUN mvn --batch-mode --no-transfer-progress dependency:go-offline
+# Este passo existe so para aquecer o cache: se algum plugin nao resolver
+# offline, o package abaixo baixa o que faltar. Falhar aqui nao e motivo
+# para derrubar o build.
+RUN mvn --batch-mode --no-transfer-progress dependency:go-offline || true
 
 COPY src ./src
 # Os testes ja rodaram no job anterior do pipeline; repeti-los aqui so
