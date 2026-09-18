@@ -1,5 +1,7 @@
 # SmartCollector Admin
 
+[![CI](https://github.com/XavieremJs/SmartCollector-admin/actions/workflows/ci.yml/badge.svg)](https://github.com/XavieremJs/SmartCollector-admin/actions/workflows/ci.yml)
+
 Painel administrativo web para o sistema **SmartCollector**, construído com **JSF/PrimeFaces** sobre **Spring Boot** e **Oracle**.
 
 Enquanto a [API REST](./api) — no diretório `api/` deste mesmo repositório — atende as aplicações cliente, este painel é a interface interna de gestão: cadastro de itens recicláveis, gestão dos centros de coleta e acompanhamento de ocupação em tempo real. Ambos leem o mesmo schema Oracle.
@@ -122,7 +124,7 @@ export MYSQL_URL=jdbc:mysql://localhost:3306/smartcollector_read
 export MYSQL_USER=smartcollector
 export MYSQL_PASSWORD=sua-senha
 
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 Painel em `http://localhost:8081/login.xhtml`.
@@ -132,7 +134,23 @@ Para subir o Oracle, use o `docker-compose.yml` do módulo `api/` (`cd api && do
 ### Testes
 
 ```bash
-./mvnw test
+mvn test
+```
+
+---
+
+## Pipeline
+
+O workflow [`ci.yml`](.github/workflows/ci.yml) roda a cada push e pull request para `main`:
+
+1. **Build e testes** — os dois módulos em paralelo (matriz), com cache do Maven. Os relatórios do Surefire ficam como artefato mesmo quando a execução falha, que é justamente quando servem.
+2. **Imagem Docker** — só começa se o passo anterior passou nos dois módulos. Em pull request a imagem é apenas construída, para validar o `Dockerfile`; a publicação no [GHCR](https://github.com/XavieremJs?tab=packages) acontece apenas no `main`.
+
+As imagens usam build multi-estágio, extraem o jar em camadas (dependências mudam pouco, código muda sempre) e rodam com usuário sem privilégio.
+
+```bash
+docker build -t smartcollector-admin .
+docker build -t smartcollector-api ./api
 ```
 
 ---
